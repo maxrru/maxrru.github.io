@@ -5,9 +5,9 @@ const opti = () => {
   const getFormData = () => {
     const formData = new FormData(document.getElementById("optifast-calculator"))
     return {
-      carbohydrates: parseInt(formData.get("carbohydrates")),
-      fat: parseInt(formData.get("fat")),
-      protein: parseInt(formData.get("protein")),
+      carbohydrates: parseFloat(formData.get("carbohydrates")),
+      fat: parseFloat(formData.get("fat")),
+      protein: parseFloat(formData.get("protein")),
       mixed: formData.get("mixed")
     }
   }
@@ -22,7 +22,11 @@ const opti = () => {
     return {yellow, red}
   }
 
-  const printResult = (result) => document.getElementById("result").innerHTML = result 
+  const printResult = ({green, yellow, red}) => {
+    document.getElementById("green-result").innerHTML = green ? green : ""
+    document.getElementById("red-result").innerHTML = red ? red : ""
+    document.getElementById("yellow-result").innerHTML = yellow ? yellow : ""
+  }
 
   const handleFormData = (event) => { 
     event.preventDefault()
@@ -31,7 +35,7 @@ const opti = () => {
     const calculateFatPoints = mixed ? calculateYellowAndRed : calculateYellowOrRed(isYellow)
     const { yellow, red } = calculateFatPoints(fat)
     const green = calculateGreenPoints(carbohydrates)
-    printResult(`green: ${green ? green : 0}, yellow: ${yellow? yellow: 0}, red: ${red? red: 0}`)
+    printResult({green, yellow, red})
   }
 
   const addListeners = (callback) => {
